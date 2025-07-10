@@ -9,6 +9,7 @@ services:
     container_name: DemoProject
     restart: unless-stopped
     tty: true
+    user: "www-data:www-data"           # ✅ Add this line
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
@@ -32,8 +33,10 @@ services:
       - ./docker-compose/nginx/app.conf:/etc/nginx/conf.d/default.conf
     networks:
       - app-network
+    depends_on:                        # ✅ Add this block
+      - app
 
-  db: # 🟢 fixed indentation here
+  db:
     container_name: db
     image: mysql:5.7
     restart: unless-stopped
